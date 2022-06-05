@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import Contacts from './Components/Contacts';
 import ContactsForm from './Components/ContactsForm';
 import Filter from './Components/Filter';
@@ -13,7 +13,7 @@ const PhoneBook = () => {
   });
 
   const [filter, setFilter] = useState('');
-  const isFirstRender = useRef(true);
+
   const dispatch = useDispatch();
   const addContacts = data => {
     const action = actionCreators.addContact(data);
