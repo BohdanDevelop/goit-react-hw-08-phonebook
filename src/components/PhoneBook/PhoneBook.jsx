@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import Contacts from './Components/Contacts';
 import ContactsForm from './Components/ContactsForm';
 import Filter from './Components/Filter';
@@ -9,12 +9,16 @@ import { nanoid } from 'nanoid';
 
 const PhoneBook = () => {
   const contacts = useSelector(values => {
-    return values.contacts;
+    return values.persistedReducer.contacts;
   });
 
-  const [filter, setFilter] = useState('');
+  const filter = useSelector(values => values.filter);
 
   const dispatch = useDispatch();
+  const setFilter = data => {
+    const action = actionCreators.setFilter(data);
+    dispatch(action);
+  };
   const addContacts = data => {
     const action = actionCreators.addContact(data);
     dispatch(action);

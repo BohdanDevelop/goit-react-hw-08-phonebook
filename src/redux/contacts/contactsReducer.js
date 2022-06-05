@@ -8,7 +8,6 @@ const initialStore = [
 ];
 const contactsReducer = createReducer(initialStore, {
   [actionCreators.addContact]: (store, { payload }) => {
-    console.log(payload);
     return [...store, payload];
   },
   [actionCreators.removeContact]: (store, { payload }) =>
