@@ -4,13 +4,10 @@ import ContactsForm from './Components/ContactsForm';
 import Filter from './Components/Filter';
 import { useSelector, useDispatch } from 'react-redux';
 import actionCreators from '../../redux/contacts/actionCreators';
-
-import { nanoid } from 'nanoid';
+import selectValue from '../../redux/contacts/selectors';
 
 const PhoneBook = () => {
-  const contacts = useSelector(values => {
-    return values.persistedReducer.contacts;
-  });
+  const contacts = useSelector(selectValue);
 
   const filter = useSelector(values => values.filter);
 
@@ -35,7 +32,7 @@ const PhoneBook = () => {
     if (allTheName.includes(name.toUpperCase())) {
       alert(`${name} is already in contacts`);
     } else {
-      addContacts({ name, number, id: `id-${nanoid()}` });
+      addContacts({ name, number });
     }
   };
   const onDeleteClick = useCallback(
@@ -52,24 +49,12 @@ const PhoneBook = () => {
     setFilter(value);
   };
   const filteredContacts = () => {
-    const newContacts = contacts.filter(({ name }) =>
-      name.toUpperCase().includes(filter.toUpperCase().trim())
-    );
+    const newContacts = contacts.filter(({ name }) => {
+      return name.toUpperCase().includes(filter.toUpperCase().trim());
+    });
     return newContacts;
   };
-  // useEffect(() => {
-  //   const savedContacts = JSON.parse(window.localStorage.getItem('contacts'));
-  //   if (savedContacts?.length) {
-  //     setContacts([...savedContacts]);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   if (!isFirstRender.current) {
-  //     window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  //   }
 
-  //   isFirstRender.current = false;
-  // }, [contacts]);
   return (
     <>
       <ContactsForm handleSubmit={handleSubmit} />
