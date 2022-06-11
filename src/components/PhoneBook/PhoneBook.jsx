@@ -1,57 +1,42 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import Contacts from './Components/Contacts';
 import ContactsForm from './Components/ContactsForm';
 import Filter from './Components/Filter';
 import { useSelector, useDispatch } from 'react-redux';
-import actionCreators from '../../redux/contacts/actionCreators';
-import selectValue from '../../redux/contacts/selectors';
+
+import selectors from '../../redux/contacts/selectors';
+import operations from '../../redux/contacts/contactsOperation';
+import filterAct from '../../redux/contacts/filterSlice';
 
 const PhoneBook = () => {
-  const contacts = useSelector(selectValue);
-
-  const filter = useSelector(values => values.filter);
+  const contacts = useSelector(value => selectors.selectValue(value));
+  const filter = useSelector(value => selectors.selectFilter(value));
 
   const dispatch = useDispatch();
-  const setFilter = data => {
-    const action = actionCreators.setFilter(data);
-    dispatch(action);
+  useEffect(() => {
+    dispatch(operations.fetchNumbers());
+  }, [dispatch]);
+
+  const handleSubmit = (name, number) => {
+    dispatch(operations.addNumber({ name, phone: number }));
   };
-  const addContacts = data => {
-    const action = actionCreators.addContact(data);
-    dispatch(action);
-  };
-  const deleteContacts = useCallback(
-    data => {
-      const action = actionCreators.removeContact(data);
-      dispatch(action);
+  const onDeleteClick = useCallback(
+    (evt, id) => {
+      if (evt.target.nodeName === 'BUTTON') {
+        dispatch(operations.deleteNumber(id));
+      }
     },
     [dispatch]
   );
-  const handleSubmit = (name, number) => {
-    const allTheName = contacts.map(elem => elem.name.toUpperCase());
-    if (allTheName.includes(name.toUpperCase())) {
-      alert(`${name} is already in contacts`);
-    } else {
-      addContacts({ name, number });
-    }
-  };
-  const onDeleteClick = useCallback(
-    evt => {
-      if (evt.target.nodeName === 'BUTTON') {
-        const deleteName = evt.target.name.toLowerCase();
-        deleteContacts(deleteName);
-      }
-    },
-    [deleteContacts]
-  );
   const handleFilter = evt => {
     const { value } = evt.target;
-    setFilter(value);
+    dispatch(filterAct.action.set(value));
   };
   const filteredContacts = () => {
-    const newContacts = contacts.filter(({ name }) => {
+    const newContacts = contacts.items.filter(({ name }) => {
       return name.toUpperCase().includes(filter.toUpperCase().trim());
     });
+
     return newContacts;
   };
 

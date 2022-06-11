@@ -9,13 +9,13 @@ import PropTypes from 'prop-types';
 //     </li>
 //   })
 const Contacts = ({ names, onClick }) => {
-  const contactsLi = names.map(({ name, number }) => {
+  const contactsLi = names.map(({ name, phone, id }) => {
     return (
-      <li className={style.li} onClick={onClick} key={name}>
+      <li className={style.li} onClick={evt => onClick(evt, id)} key={name}>
         <div>
-          {name} : {number}
+          {name} : {phone}
         </div>
-        <button className={style.button} name={name} type="button">
+        <button className={style.button} type="button">
           Delete
         </button>
       </li>
@@ -27,8 +27,8 @@ const Contacts = ({ names, onClick }) => {
 Contacts.propTypes = {
   names: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      number: PropTypes.string,
     }).isRequired
   ),
   onClick: PropTypes.func.isRequired,
