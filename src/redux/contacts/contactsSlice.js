@@ -14,11 +14,15 @@ const contactsSlice = createSlice({
       ...store,
       loading: true,
     }),
-    [functions.fetchNumbers.fulfilled]: (store, { payload }) => ({
-      ...store,
-      items: [...payload],
-      loading: false,
-    }),
+    [functions.fetchNumbers.fulfilled]: (store, { payload }) => {
+      if (payload.length) {
+        return {
+          ...store,
+          items: [...payload],
+          loading: false,
+        };
+      }
+    },
     [functions.fetchNumbers.rejected]: (store, { payload }) => ({
       ...store,
       loading: false,
@@ -46,13 +50,16 @@ const contactsSlice = createSlice({
       ...store,
       loading: true,
     }),
-    [functions.deleteNumber.fulfilled]: (store, { payload }) => ({
-      ...store,
-      loading: false,
-      items: store.items.filter(element => {
-        return element.id !== payload.id;
-      }),
-    }),
+    [functions.deleteNumber.fulfilled]: (store, { payload }) => {
+      console.log(payload);
+      return {
+        ...store,
+        loading: false,
+        items: store.items.filter(element => {
+          return element.id !== payload;
+        }),
+      };
+    },
     [functions.deleteNumber.rejected]: (store, { payload }) => ({
       ...store,
       loading: false,
