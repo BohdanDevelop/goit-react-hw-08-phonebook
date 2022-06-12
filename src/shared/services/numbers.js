@@ -1,4 +1,3 @@
-import { number } from 'prop-types';
 import userRequests from './user';
 // const instance = axios.create({
 //   baseURL: 'https://62a23736cc8c0118ef5f0df2.mockapi.io/api/v1/numbers/',
