@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
-import ContactsPage from './Pages/ContactsPage/ContactsPage';
-import RegisterPage from './Pages/RegisterPage';
-import LoginPage from './Pages/LoginPage';
+import ContactsPage from '../Pages/ContactsPage/ContactsPage';
+import RegisterPage from '../Pages/RegisterPage';
+import LoginPage from '../Pages/LoginPage';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import operations from '../redux/user/userOperations';

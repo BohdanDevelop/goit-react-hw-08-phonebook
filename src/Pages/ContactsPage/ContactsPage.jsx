@@ -1,4 +1,4 @@
-import PhoneBook from '../../PhoneBook';
+import PhoneBook from '../../components/PhoneBook';
 
 const ContactsPage = () => {
   return <PhoneBook />;

@@ -5,20 +5,12 @@ export const instance = axios.create({
 });
 
 const signUpUser = async info => {
-  const { data } = await instance.post('users/signup', info, {
-    header: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const { data } = await instance.post('users/signup', info);
   instance.defaults.headers.common.authorization = `Bearer ${data.token}`;
   return data;
 };
 const LogIn = async info => {
-  const { data } = await instance.post('users/login', info, {
-    header: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const { data } = await instance.post('users/login', info);
 
   instance.defaults.headers.common.authorization = `Bearer ${data.token}`;
   return data;
